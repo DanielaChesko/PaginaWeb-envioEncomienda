@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shipealo</title>
+    <link rel="stylesheet" href="../CSS/style.css">
+</head>
+<body class="index">
+    <header>
+        <a href="./index.html">
+            <img src="ruta-a-tu-logo.png" alt="logo">
+        </a>
+        <ul>
+            <li id="mostrarNombreCompleto">@usuario</li>
+        </ul>
+    </header>
+    <div class="cargaenvio-body">
+        <h1>Carga de datos</h1>
+        <div class="cargaenvios-body-datos">
+            <div class="datos-desde">
+                <form id="formularioDesde">
+                    <p>DATOS DESDE...</p>
+
+                    <label for="nombre">Nombre</label>
+                    <input type="text" name="nombre" required>
+
+                    <label for="apellido">Apellido</label>
+                    <input type="text" name="apellido" required>
+
+                    <label for="email">Correo electronico</label>
+                    <input type="text" name="email" required>
+
+                    <label for="celular">Celular</label>
+                    <input type="text" name="celular" required>
+
+                    <label for="direccion">Direccion</label>
+                    <input type="text" name="direccion" required>
+
+                    <label for="entrecalles">Entre calles</label>
+                    <input type="text" name="entrecalles" required>
+
+                    <label for="cp">Codigo postal</label>
+                    <input type="text" name="cp" required>
+
+                    <label for="localidad">Localidad</label>
+                    <input type="text" name="localidad" required>
+
+                    <label for="referencias">Referencias</label>
+                    <textarea name="referencias" cols="2" rows="2" placeholder="Describa datos extra que ayude a identificar el domicilio..." required></textarea>
+                </form>
+            </div>
+            <div class="datos-hasta">
+                <form id="formularioHasta">
+                    <p>DATOS HASTA...</p>
+
+                    <label for="nombre">Nombre</label>
+                    <input type="text" name="nombre" required>
+
+                    <label for="apellido">Apellido</label>
+                    <input type="text" name="apellido" required>
+
+                    <label for="email">Correo electronico</label>
+                    <input type="text" id="emailHasta" name="email" required>
+
+                    <label for="celular">Celular</label>
+                    <input type="text" name="celular" required>
+
+                    <label for="direccion">Direccion</label>
+                    <input type="text" name="direccion" required>
+
+                    <label for="entrecalles">Entre calles</label>
+                    <input type="text" name="entrecalles" required>
+
+                    <label for="cp">Codigo postal</label>
+                    <input type="text" name="cp" required>
+
+                    <label for="localidad">Localidad</label>
+                    <input type="text" name="localidad" required>
+
+                    <label for="referencias">Referencias</label>
+                    <textarea name="referencias" cols="2" rows="2" placeholder="Describa datos extra que ayude a identificar el domicilio..." required></textarea>
+                </form>
+            </div>
+            <div class="cargaenvios-body-tamanio">
+                <form action="">
+                    <p>TAMAÑO PAQUETE</p>
+
+                    <label for="alto">Alto</label>
+                    <input type="text" id="alto" name="alto" required>
+    
+                    <label for="ancho">Ancho</label>
+                    <input type="text" id="ancho" name="ancho" required>
+    
+                    <label for="profundo">Profundo</label>
+                    <input type="text" id="profundo" name="profundo" required>
+    
+                    <label for="distacia">Distacia (km)</label>
+                    <input type="text" id="distancia" name="distancia" required>
+                </form>
+                <img src="../cajacompl.png" alt="cajamedidas">
+
+                <div>
+                    <button type="button" id="botonCalcular">Calcular</button>
+                    <p id="mostrarPrecio">$ ---</p>
+                </div>
+                <button type="button" id="confirmarEnvio">Confirmar envio</button>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <h3>Redes sociales</h3>
+        <a href="#">Instagram</a>
+        <a href="#">Correo electrónico</a>
+    </footer>
+    <script src="../JS/main.js"></script>
+</body>
+</html>
