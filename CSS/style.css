@@ -19,7 +19,6 @@ body {
 }
 
 
-
 /* Estilos para el encabezado */
 header {
     display: flex;
@@ -334,7 +333,7 @@ footer a {
 .cargaenvios-body-tamanio div p{
     width: 8rem;
     margin-top: 0.4rem;
-    margin-left: 7.3rem;
+    margin-left: 7.1rem;
 }
 
 .cargaenvios-body-tamanio button{

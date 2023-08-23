@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="../CSS/style.css">
 </head>
 <body class="index">
+    <!-- header -->
     <header>
         <a href="./index.html">
             <img src="ruta-a-tu-logo.png" alt="logo">
@@ -15,9 +16,11 @@
             <li id="mostrarNombreCompleto">@usuario</li>
         </ul>
     </header>
+    <!-- body -->
     <div class="cargaenvio-body">
         <h1>Carga de datos</h1>
         <div class="cargaenvios-body-datos">
+            <!-- carga de formulario -->
             <div class="datos-desde">
                 <form id="formularioDesde">
                     <p>DATOS DESDE...</p>
@@ -82,6 +85,7 @@
                     <textarea name="referencias" cols="2" rows="2" placeholder="Describa datos extra que ayude a identificar el domicilio..." required></textarea>
                 </form>
             </div>
+            <!-- tamaño paquete -->
             <div class="cargaenvios-body-tamanio">
                 <form action="">
                     <p>TAMAÑO PAQUETE</p>
@@ -99,7 +103,7 @@
                     <input type="text" id="distancia" name="distancia" required>
                 </form>
                 <img src="../cajacompl.png" alt="cajamedidas">
-
+                <!-- boton calcular envio y confirmar envio -->
                 <div>
                     <button type="button" id="botonCalcular">Calcular</button>
                     <p id="mostrarPrecio">$ ---</p>
@@ -108,6 +112,7 @@
             </div>
         </div>
     </div>
+    <!-- footer -->
     <footer>
         <h3>Redes sociales</h3>
         <a href="#">Instagram</a>

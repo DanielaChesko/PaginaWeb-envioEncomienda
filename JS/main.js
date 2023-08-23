@@ -5,13 +5,13 @@ document.addEventListener("DOMContentLoaded", function() {
     formCrear.addEventListener("submit", function(event) {
         event.preventDefault(); //evitar que se envíe el formulario
 
-        // guardar datos
+        // guarda los datos tomados del formulario
         const nombreUsuario = document.getElementById("nombreUsuario").value;
         const apellidoUsuario = document.getElementById("apellidoUsuario").value;
         const email = document.getElementById("email").value;
         const contrasenia = document.getElementById("password").value;
 
-        // crear un objeto para almacenar los datos del usuario.
+        // crea un objeto para almacenar los datos del usuario.
         const userData = {
             nombreUsuario: nombreUsuario,
             apellidoUsuario: apellidoUsuario,
@@ -24,11 +24,10 @@ document.addEventListener("DOMContentLoaded", function() {
             alert("Por favor completa todos los campos.");
         }
 
-        // convierta el objeto en una cadena JSON y guárdelo en localStorage
+        // convierte el objeto en una cadena JSON y guarda en localStorage
         localStorage.setItem("userData", JSON.stringify(userData));
 
         alert(`Te enviamos un mail a ${email} para confirmar la cuenta así comienza a utilizarla.`);
-        formCrear.clear()
     });
 });
 
@@ -48,7 +47,6 @@ document.addEventListener("DOMContentLoaded", function() {
             // guarda en una variable el nombre y apellido para luego mostrarlo en el header
             const nombreCompletoUsuario = `@${datosAlmacenados.nombreUsuario}${datosAlmacenados.apellidoUsuario}`;
             localStorage.setItem("user", nombreCompletoUsuario);
-            alert("Inicio de sesión exitoso. ¡Bienvenido!");
             window.location.href = "../wiframes/cargaProductos.html"; // cambia de html al poder ingresar
         } else {
             alert("Credenciales incorrectas. Por favor, verifica tus datos.");
@@ -56,19 +54,9 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 });
 
-// MOSTRAR STORAGE--------------------
-// Obteniendo los datos del localStorage
-const storedUserData = localStorage.getItem("userData");
-
-// Parseando los datos de JSON a un objeto
-const userDataObject = JSON.parse(storedUserData);
-
-// Imprimiendo los datos en la consola
-console.log(userDataObject);
-
 // ---------------------------------------CARGAR PRODUCTO--------------------------------
 
-// MOSTRAR NOMBRE + APELLIDO EN DOM HEADER
+// MUESTRA NOMBRE + APELLIDO EN DOM HEADER
 document.addEventListener("DOMContentLoaded", function() {
     const user = localStorage.getItem("user");
     const userCompleto = document.getElementById("mostrarNombreCompleto"); //toma elemento del html
@@ -79,7 +67,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 });
 
-// CALCULAR ENVIO Y MOSTRAR EN DOM
+// CALCULA ENVIO Y MOSTRAR EN DOM
 document.addEventListener("DOMContentLoaded", function() {
     const calcularButton = document.getElementById("botonCalcular");
     const precioElement = document.getElementById("mostrarPrecio");
@@ -92,6 +80,7 @@ document.addEventListener("DOMContentLoaded", function() {
         const profundo = parseFloat(document.getElementById("profundo").value);
         const distancia = parseFloat(document.getElementById("distancia").value);
         
+        // verifica si no estan vacias, sino hace los calculos de tamaño y kilometros para determinar el precio final
         if (alto === "" || ancho === "" || profundo === "" || distancia === "" ) {
             alert("Por favor, completa todos los campos antes de calcular el precio.");
         }else{
@@ -144,13 +133,13 @@ document.addEventListener("DOMContentLoaded", function() {
     
             let precioFinal = costoTamanio + costoKilometros;
             
-            // Actualizar el DOM con el precio calculado
+            // Actualiza el DOM con el precio calculado
             precioElement.textContent = `$ ${precioFinal}`;
         }
     });
 });
 
-// VERIFICAR QUE LOS DATOS DESDE Y HASTA ESTEN LLENOS
+// VERIFICA QUE LOS DATOS DESDE Y HASTA ESTEN LLENOS
 
 document.addEventListener("DOMContentLoaded", function() {
     const confirmarEnvioButton = document.getElementById("confirmarEnvio");
@@ -160,8 +149,8 @@ document.addEventListener("DOMContentLoaded", function() {
         const datosHastaForm = document.querySelector("#formularioHasta");
 
         if (!datosDesdeForm.checkValidity() || !datosHastaForm.checkValidity()) {
-            alert("Por favor, completa todos los campos de Datos Desde y Datos Hasta.");
-        } else {
+            alert("Por favor, completa todos los campos del formulario.");
+        } else { //toma el mail ingresado en datos hasta y muestra por alert al concluir el envio
             const email = document.getElementById("emailHasta").value;
             alert(`El envío se cargó correctamente. Solo falta que confirme el email que le enviamos a ${email} y responder adjuntando el comprobante de pago.`);
         }
