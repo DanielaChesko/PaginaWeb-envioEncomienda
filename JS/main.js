@@ -31,6 +31,7 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 });
 
+
 // -------------------------------------INICIAR SESION-----------------------------------
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -54,6 +55,7 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 });
 
+
 // ---------------------------------------CARGAR PRODUCTO--------------------------------
 
 // MUESTRA NOMBRE + APELLIDO EN DOM HEADER
@@ -67,77 +69,114 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 });
 
-// CALCULA ENVIO Y MOSTRAR EN DOM
-document.addEventListener("DOMContentLoaded", function() {
-    const calcularButton = document.getElementById("botonCalcular");
-    const precioElement = document.getElementById("mostrarPrecio");
-    
-    calcularButton.addEventListener("click", function(event) {
-        event.preventDefault();
 
-        const alto = parseFloat(document.getElementById("alto").value);
-        const ancho = parseFloat(document.getElementById("ancho").value);
-        const profundo = parseFloat(document.getElementById("profundo").value);
-        const distancia = parseFloat(document.getElementById("distancia").value);
-        
-        // verifica si no estan vacias, sino hace los calculos de tamaño y kilometros para determinar el precio final
-        if (alto === "" || ancho === "" || profundo === "" || distancia === "" ) {
-            alert("Por favor, completa todos los campos antes de calcular el precio.");
-        }else{
-            const tamanio = alto + ancho + profundo;
-            let costoTamanio = 0;
-            if(tamanio > 0 && tamanio <= 10){
-            costoTamanio = 50;
-            }else if(tamanio > 10 && tamanio <= 20){
-                costoTamanio = 80;
-            }else if(tamanio > 20 && tamanio <= 30){
-                costoTamanio = 140;
-            }else if(tamanio > 30 && tamanio <= 40){
-                costoTamanio = 190;
-            }else if(tamanio > 40 && tamanio <= 50){
-                costoTamanio = 240;
-            }else if(tamanio > 50 && tamanio <= 60){
-                costoTamanio = 290;
-            }else if(tamanio > 60 && tamanio <= 100){
-                costoTamanio = 500;
-            }else{
-                alert("Los valores ingresados son muy elevados.");
-            }
-    
-            let costoKilometros = 0;
-            if(distancia > 0 && distancia <= 5){
-            costoKilometros = 200;
-            }else if(distancia > 5 && distancia <= 10){
-                costoKilometros = 350;
-            }else if(distancia > 10 && distancia <= 20){
-                costoKilometros = 400;
-            }else if(distancia > 20 && distancia <= 30){
-                costoKilometros = 450;
-            }else if(distancia > 30 && distancia <= 40){
-                costoKilometros = 500;
-            }else if(distancia > 40 && distancia <= 50){
-                costoKilometros = 550;
-            }else if(distancia > 50 && distancia <= 60){
-                costoKilometros = 600;
-            }else if(distancia > 60 && distancia <= 70){
-                costoKilometros = 650;
-            }else if(distancia > 70 && distancia <= 80){
-                costoKilometros = 700;
-            }else if(distancia > 80 && distancia <= 90){
-                costoKilometros = 750;
-            }else if(distancia > 90 && distancia <= 100){
-                costoKilometros = 800;
-            }else{
-                costoKilometros = 850;
-            }
-    
-            let precioFinal = costoTamanio + costoKilometros;
-            
-            // Actualiza el DOM con el precio calculado
-            precioElement.textContent = `$ ${precioFinal}`;
-        }
-    });
+// ACCIONES A REALIZAR PARA QUE FUNCIONE EL BOTON DE CALCULAR PRECIO FINAL
+function calcularDistancia() {
+    const direccionCalle1 = document.getElementById("direccion1").value;
+    const direccionLocalidad1 = document.getElementById("localidad1").value;
+    const direccionCalle2 = document.getElementById("direccion2").value;
+    const direccionLocalidad2 = document.getElementById("localidad2").value;
+
+    const direccionDesde = `${direccionCalle1} ${direccionLocalidad1}`;
+    const direccionHasta = `${direccionCalle2} ${direccionLocalidad2}`;
+
+    const apiKey = "2NR4Nq25iHgwr6HgiD7zCAFMIAzt8ilq"; //APIkey MapQuest
+
+    // URL referencia y une apikey y direcciones
+    const url = `https://www.mapquestapi.com/directions/v2/route?key=${apiKey}&from=${direccionDesde}&to=${direccionHasta}`;
+
+    // solicitud a la API de MapQuest
+    axios.get(url)
+        .then(response => {
+            const distanciaKilometros = response.data.route.distance * 1.60934; // calcula millas a kilometros
+
+            // Actualiza el DOM con la distancia calculada
+            const mostrarKilometros = document.getElementById("mostrarKilometros");
+            mostrarKilometros.textContent = `${distanciaKilometros.toFixed(2)} km`; //actualiza el DOM de kilometros
+
+            // llama la funcion calcularprecio con los datos ingresados + kilometros calculados
+            calcularPrecio(distanciaKilometros);
+        })
+        .catch(error => {
+            console.error("Error al calcular la distancia:", error);
+        });
+}
+
+const calcularButton = document.getElementById("botonCalcular");
+
+// llama la funcion calcular distancia
+calcularButton.addEventListener("click", function (event) {
+    event.preventDefault();
+    calcularDistancia();
 });
+
+// funcion calcular el precio
+function calcularPrecio(distancia) {
+    const alto = parseFloat(document.getElementById("alto").value);
+    const ancho = parseFloat(document.getElementById("ancho").value);
+    const profundo = parseFloat(document.getElementById("profundo").value);
+
+    // precio tamaño
+    let costoTamanio = 0;
+    if (alto > 0 && ancho > 0 && profundo > 0) {
+        const tamanio = alto + ancho + profundo;
+        if (tamanio <= 10) {
+            costoTamanio = 50;
+        } else if (tamanio <= 20) {
+            costoTamanio = 80;
+        } else if (tamanio <= 30) {
+            costoTamanio = 140;
+        } else if (tamanio <= 40) {
+            costoTamanio = 190;
+        } else if (tamanio <= 50) {
+            costoTamanio = 240;
+        } else if (tamanio <= 60) {
+            costoTamanio = 290;
+        } else if (tamanio <= 100) {
+            costoTamanio = 500;
+        } else {
+            alert("Los valores ingresados son muy elevados.");
+            return; // Evita calcular el precio si los valores son demasiado altos
+        }
+    } else {
+        alert("Por favor, completa todos los campos antes de calcular el precio.");
+        return; // Evita calcular el precio si los campos no estan completos
+    }
+
+    // precio kilometro
+    let costoKilometros = 0;
+    if (distancia > 0 && distancia <= 5) {
+        costoKilometros = 200;
+    } else if (distancia <= 10) {
+        costoKilometros = 350;
+    } else if (distancia <= 20) {
+        costoKilometros = 400;
+    } else if (distancia <= 30) {
+        costoKilometros = 450;
+    } else if (distancia <= 40) {
+        costoKilometros = 500;
+    } else if (distancia <= 50) {
+        costoKilometros = 550;
+    } else if (distancia <= 60) {
+        costoKilometros = 600;
+    } else if (distancia <= 70) {
+        costoKilometros = 650;
+    } else if (distancia <= 80) {
+        costoKilometros = 700;
+    } else if (distancia <= 90) {
+        costoKilometros = 750;
+    } else if (distancia <= 100) {
+        costoKilometros = 800;
+    } else {
+        costoKilometros = 850;
+    }
+
+    const precioFinal = costoTamanio + costoKilometros;
+
+    // Actualiza el DOM con el precio calculado
+    const mostrarPrecioFinal = document.getElementById("mostrarPrecio");
+    mostrarPrecioFinal.textContent = `$ ${precioFinal.toFixed(2)}`;
+}
 
 // VERIFICA QUE LOS DATOS DESDE Y HASTA ESTEN LLENOS
 
@@ -155,4 +194,161 @@ document.addEventListener("DOMContentLoaded", function() {
             alert(`El envío se cargó correctamente. Solo falta que confirme el email que le enviamos a ${email} y responder adjuntando el comprobante de pago.`);
         }
     });
+});
+
+
+// VALIDACION DE DATOS (LETRAS)
+
+document.addEventListener("DOMContentLoaded", function () {
+    const formulario = document.getElementById("formulario");
+
+    // Función de validación para campos de texto
+    function validarCampoLetras(campo, span) {
+        campo.addEventListener("input", function () {
+            const valor = campo.value;
+            if (!/^([a-zA-ZñÑáéíóúÁÉÍÓÚ\s])+$/.test(valor)) {
+                span.textContent = "✗";
+                span.style.color = "red";
+            }
+             // Verifica si el campo está vacío y muestra un icono vacío
+            if (valor.trim() === "") {
+                span.textContent = "";
+            }
+        });
+    }
+
+    // Validar Nombre1
+    const validacionNombre1 = document.getElementById("validacionNombre1");
+    const validacionNombre1span = document.getElementById("validacionNombre1span");
+    validarCampoLetras(validacionNombre1, validacionNombre1span);
+
+    // Validar Apellido1
+    const validacionApellido1 = document.getElementById("validacionApellido1");
+    const validacionApellido1span = document.getElementById("validacionApellido1span");
+    validarCampoLetras(validacionApellido1, validacionApellido1span);
+
+    // Validar EntreCalles1
+    const validacionEntreCalles1 = document.getElementById("validacionEntreCalles1");
+    const validacionEntreCalles1span = document.getElementById("validacionEntreCalles1span");
+    validarCampoLetras(validacionEntreCalles1, validacionEntreCalles1span);
+
+    // Validar Nombre2
+    const validacionNombre2 = document.getElementById("validacionNombre2");
+    const validacionNombre2span = document.getElementById("validacionNombre2span");
+    validarCampoLetras(validacionNombre2, validacionNombre2span);
+
+    // Validar Apellido2
+    const validacionApellido2 = document.getElementById("validacionApellido2");
+    const validacionApellido2span = document.getElementById("validacionApellido2span");
+    validarCampoLetras(validacionApellido2, validacionApellido2span);
+
+    // Validar EntreCalles2
+    const validacionEntreCalles2 = document.getElementById("validacionEntreCalles2");
+    const validacionEntreCalles2span = document.getElementById("validacionEntreCalles2span");
+    validarCampoLetras(validacionEntreCalles2, validacionEntreCalles2span);
+
+    // Validar el formulario completo antes de enviarlo
+    formulario.addEventListener("submit", function (event) {
+        const valorNombre1 = validacionNombre1.value;
+        const valorApellido1 = validacionApellido1.value;
+        const valorEntreCalles1 = validacionEntreCalles1.value;
+        const valorNombre2 = validacionNombre2.value;
+        const valorApellido2 = validacionApellido2.value;
+        const valorEntreCalles2 = validacionEntreCalles2.value;
+
+        if (!/^([a-zA-ZñÑáéíóúÁÉÍÓÚ\s])+$/.test(valorNombre1) || !/^([a-zA-ZñÑáéíóúÁÉÍÓÚ\s])+$/.test(valorApellido1) || !/^([a-zA-ZñÑáéíóúÁÉÍÓÚ\s])+$/.test(valorEntreCalles1) || !/^([a-zA-ZñÑáéíóúÁÉÍÓÚ\s])+$/.test(valorNombre2) || !/^([a-zA-ZñÑáéíóúÁÉÍÓÚ\s])+$/.test(valorApellido2) || !/^([a-zA-ZñÑáéíóúÁÉÍÓÚ\s])+$/.test(valorEntreCalles2)) {
+            // No envía el formulario si uno de los valores no es válido
+            event.preventDefault();
+        }
+    });
+});
+
+// VALIDACION DE DATOS (NUMEROS)
+
+document.addEventListener("DOMContentLoaded", function () {
+    const formulario = document.getElementById("formulario");
+
+    // Función de validación para campos de texto
+    function validarCampoNumeros(campo, span) {
+        campo.addEventListener("input", function () {
+            const valor = campo.value;
+            if (!/^[0-9]+$/.test(valor)) {
+                span.textContent = "✗";
+                span.style.color = "red";
+            }
+             // Verifica si el campo está vacío y muestra un icono vacío
+            if (valor.trim() === "") {
+                span.textContent = "";
+            }
+        });
+    }
+
+    // Validar celular1
+    const validacionCelular1 = document.getElementById("validacionCelular1");
+    const validacionCelular1span = document.getElementById("validacionCelular1span");
+    validarCampoNumeros(validacionCelular1, validacionCelular1span);
+
+    // Validar codigopostal1
+    const validacionCP1 = document.getElementById("validacionCP1");
+    const validacionCP1span = document.getElementById("validacionCP1span");
+    validarCampoNumeros(validacionCP1, validacionCP1span);
+
+    // Validar celular2
+    const validacionCelular2 = document.getElementById("validacionCelular2");
+    const validacionCelular2span = document.getElementById("validacionCelular2span");
+    validarCampoNumeros(validacionCelular2, validacionCelular2span);
+
+    // Validar codigopostal2
+    const validacionCP2 = document.getElementById("validacionCP2");
+    const validacionCP2span = document.getElementById("validacionCP2span");
+    validarCampoNumeros(validacionCP2, validacionCP2span);
+
+    // Validar alto
+    const validacionAlto = document.getElementById("validacionAlto");
+    const validacionAltospan = document.getElementById("validacionAltospan");
+    validarCampoNumeros(validacionAlto, validacionAltospan);
+    
+    // Validar ancho
+    const validacionAncho = document.getElementById("validacionAncho");
+    const validacionAnchospan = document.getElementById("validacionAnchospan");
+    validarCampoNumeros(validacionAncho, validacionAnchospan);
+
+    // Validar profundo
+    const validacionProfundo = document.getElementById("validacionProfundo");
+    const validacionProfundospan = document.getElementById("validacionProfundospan");
+    validarCampoNumeros(validacionProfundo, validacionProfundospan);
+
+    // Validar el formulario completo antes de enviarlo
+    formulario.addEventListener("submit", function (event) {
+        const valorCelular1 = validacionCelular1.value;
+        const valorCP1 = validacionCP1.value;
+        const valorCelular2 = validacionCelular2.value;
+        const valorCP2 = validacionCP2.value;
+        const valorAlto = validacionAlto.value;
+        const valorAncho = validacionAncho.value;
+        const valorProfundo = validacionProfundo.value;
+
+        if (!/^[0-9]+$/.test(valorCelular1) || !/^[0-9]+$/.test(valorCP1) || !/^[0-9]+$/.test(valorCelular2) || !/^[0-9]+$/.test(valorCP2) || !/^[0-9]+$/.test(valorAlto) || !/^[0-9]+$/.test(valorAncho) || !/^[0-9]+$/.test(valorProfundo)) {
+            // No envía el formulario si uno de los valores no es valido
+            event.preventDefault();
+        }
+    });
+});
+
+// BUSQUEDA RECOMENDADA EN DIRECCION Y LOCALIDAD
+placeSearch({
+    key: '2NR4Nq25iHgwr6HgiD7zCAFMIAzt8ilq',
+    container: document.querySelector('.sugerenciasDireccion1')
+});
+placeSearch({
+    key: '2NR4Nq25iHgwr6HgiD7zCAFMIAzt8ilq',
+    container: document.querySelector('.sugerenciasLocalidad1')
+});
+placeSearch({
+    key: '2NR4Nq25iHgwr6HgiD7zCAFMIAzt8ilq',
+    container: document.querySelector('.sugerenciasDireccion2')
+});
+placeSearch({
+    key: '2NR4Nq25iHgwr6HgiD7zCAFMIAzt8ilq',
+    container: document.querySelector('.sugerenciasLocalidad2')
 });
