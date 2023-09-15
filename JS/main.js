@@ -71,11 +71,12 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 // ACCIONES A REALIZAR PARA QUE FUNCIONE EL BOTON DE CALCULAR PRECIO FINAL
+const direccionCalle1 = document.getElementById("direccion1").value;
+const direccionLocalidad1 = document.getElementById("localidad1").value;
+const direccionCalle2 = document.getElementById("direccion2").value;
+const direccionLocalidad2 = document.getElementById("localidad2").value;
+
 function calcularDistancia() {
-    const direccionCalle1 = document.getElementById("direccion1").value;
-    const direccionLocalidad1 = document.getElementById("localidad1").value;
-    const direccionCalle2 = document.getElementById("direccion2").value;
-    const direccionLocalidad2 = document.getElementById("localidad2").value;
 
     const direccionDesde = `${direccionCalle1} ${direccionLocalidad1}`;
     const direccionHasta = `${direccionCalle2} ${direccionLocalidad2}`;
@@ -333,22 +334,4 @@ document.addEventListener("DOMContentLoaded", function () {
             event.preventDefault();
         }
     });
-});
-
-// BUSQUEDA RECOMENDADA EN DIRECCION Y LOCALIDAD
-placeSearch({
-    key: '2NR4Nq25iHgwr6HgiD7zCAFMIAzt8ilq',
-    container: document.querySelector('.sugerenciasDireccion1')
-});
-placeSearch({
-    key: '2NR4Nq25iHgwr6HgiD7zCAFMIAzt8ilq',
-    container: document.querySelector('.sugerenciasLocalidad1')
-});
-placeSearch({
-    key: '2NR4Nq25iHgwr6HgiD7zCAFMIAzt8ilq',
-    container: document.querySelector('.sugerenciasDireccion2')
-});
-placeSearch({
-    key: '2NR4Nq25iHgwr6HgiD7zCAFMIAzt8ilq',
-    container: document.querySelector('.sugerenciasLocalidad2')
 });
